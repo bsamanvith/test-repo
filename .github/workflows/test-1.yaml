@@ -1,0 +1,24 @@
+name: Build Docker Image From Branch
+on:
+  workflow_dispatch:
+    inputs:
+      directory:
+        description: 'Directory to build'
+        required: true
+        default: 'api'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test1
+        run: | 
+          ad='13'
+          abc='345'
+          echo "ad=$ad" >> $GITHUB_ENV
+          echo "abc=$abc" >> $GITHUB_ENV
+          echo "ad=456" >> $GITHUB_ENV
+      - name: test2
+        run: |
+          echo "${{ env.ad }}"
+          echo "${{ env.abc }}"
