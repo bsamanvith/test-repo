@@ -31,5 +31,6 @@ jobs:
           echo "data out " >> test.txt
           git add .
           git commit -m "Create i18n locale files for data" -q
+          git push origin temp-data
           gh pr create -B main -H temp-data --title 'Merge something into base_branch' --body 'Created by Github action'
       
