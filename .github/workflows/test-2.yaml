@@ -26,6 +26,7 @@ jobs:
           git push origin temp-data
           git config --global user.email "i18n-action@unifyapps.com"
           git config --global user.name "Gen I18n Action"
+          echo "data out " >> test.txt
           git add .
           git commit -m "Create i18n locale files for data" -q
           gh pr create -B main -H temp-data --title 'Merge something into base_branch' --body 'Created by Github action'
