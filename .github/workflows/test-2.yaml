@@ -4,11 +4,8 @@ permissions:
   contents: write
   pull-requests: write
 on:
-  workflow_dispatch:
-    inputs:
-      locale:
-        description: 'List of locales to sync (separated by comma)'
-        required: true
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
 
 jobs:
   create-locale-files:
@@ -24,6 +21,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          TARGET_BRANCH="${{ github.event.pull_request.base.ref || 'main' }}"
+          echo $TARGET_BRANCH
+          echo "Full ref: ${{ github.ref }}"
+          echo "Ref name: ${{ github.ref_name }}"
+          echo "Ref type: ${{ github.ref_type }}"
+          echo "Branch name: ${{ github.head_ref || github.ref_name }}"
+          echo "Base branch: ${{ github.base_ref }}"
           git checkout -b temp-data
           git push origin temp-data
           git config --global user.email "i18n-action@unifyapps.com"
