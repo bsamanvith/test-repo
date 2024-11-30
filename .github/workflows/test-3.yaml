@@ -1,0 +1,43 @@
+name: Test-3
+
+permissions:
+  contents: write
+  pull-requests: write
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  create-locale-files:
+    runs-on: ubuntu-latest
+    environment: qa
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Testout
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo $(git status)
+          echo "lul"
+          TARGET_BRANCH="${{ github.event.pull_request.base.ref || 'main' }}"
+          echo $TARGET_BRANCH
+          echo "Full ref: ${{ github.ref }}"
+          echo "Ref name: ${{ github.ref_name }}"
+          echo "Ref type: ${{ github.ref_type }}"
+          echo "Branch name: ${{ github.head_ref || github.ref_name }}"
+          echo "Base branch: ${{ github.base_ref }}"
+          git checkout ${{ github.head_ref }}
+          git checkout -b temp-data
+          git push origin temp-data
+          git config --global user.email "i18n-action@unifyapps.com"
+          git config --global user.name "Gen I18n Action"
+          echo "data out " >> test.txt
+          git add .
+          git commit -m "Create i18n locale files for data" -q
+          git push origin temp-data
+          gh pr create -B main -H temp-data --title 'Merge something into base_branch' --body 'Created by Github action'
+      
