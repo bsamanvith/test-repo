@@ -4,11 +4,8 @@ permissions:
   contents: write
   pull-requests: write
 on:
-  workflow_dispatch:
-    inputs:
-      locale:
-        description: 'List of locales to sync (separated by comma)'
-        required: true
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   create-locale-files:
