@@ -23,7 +23,6 @@ jobs:
         run: |
           TARGET_BRANCH="${{ github.event.pull_request.base.ref || 'main' }}"
           echo $TARGET_BRANCH
-          echo ${{ GITHUB_SHA }}
           echo "Full ref: ${{ github.ref }}"
           echo "Ref name: ${{ github.ref_name }}"
           echo "Ref type: ${{ github.ref_type }}"
